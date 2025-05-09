@@ -7,12 +7,15 @@
 class Debtors: {
 private:
     std::vector<Credit> debts;
+    std::set<Credit> debtSet;
+    std::unordered_set<Credit> debtUnorderedSet;
     
 public:
     
     Debtors(Credit&&... credit) {
         debts.reserve(debts.size() + sizeof...(credit));
         (debts.emplace_back(credit), ...);
+        (addToSets(Credit(std::forward<Credit>(credit))), ...);
     };
     
     void readFromFile(const std::string& filename) {
@@ -28,6 +31,11 @@ public:
         }
     }
     
+    void addToSets(const Credit& credit) {
+        debtSet.insert(credit);
+        debtUnorderedSet.insert(credit);
+    }
+    
     void sortByAmount() {
         std::sort(debts.begin(), debts.end());
     }
@@ -38,10 +46,32 @@ public:
         return result;
     }
     
+    const std::set<Credit>& getDebtSet() const {
+        return debtSet;
+    }
+    
+    const std::unordered_set<Credit>& getDebtUnorderedSet() const {
+        return debtUnorderedSet;
+    }
+    
+    void printSet(std::ostream& os) const {
+        os << "Set contents (sorted unique):\n";
+        for (const auto& credit : debtSet) {
+            os << credit << "\n";
+        }
+    }
+    
+    void printUnorderedSet(std::ostream& os) const {
+        os << "Unordered set contents (unique):\n";
+        for (const auto& credit : debtUnorderedSet) {
+            os << credit << "\n";
+        }
+    }
+    
     friend std::ostream& operator<<(std::ostream& os, const Debtors& debtors) {
         for (const auto& credit : debtors.debts) {
             os << credit << "\n";
         }
         return os;
     }
-}
+};

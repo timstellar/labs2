@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <functional>
 
 class Credit {
 public:
@@ -55,4 +56,23 @@ public:
     bool operator<(const Credit& other) const {
         return summ < other.summ;
     }
+    
+    bool operator==(const Credit& other) const {
+        return name == other.name &&
+               type == other.type &&
+               summ == other.summ &&
+               rate == other.rate;
+    }
 };
+
+namespace std {
+    template<>
+    struct hash<Credit> {
+        size_t operator()(const Credit& credit) const {
+            return hash<string>()(credit.name) ^
+                   hash<string>()(credit.type) ^
+                   hash<float>()(credit.summ) ^
+                   hash<float>()(credit.rate);
+        }
+    };
+}
