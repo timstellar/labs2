@@ -26,6 +26,7 @@ public:
         while (inFile >> name >> type >> summ >> rate) {
             debts.emplace_back(name, type, summ, rate);
         }
+        inFile.close();
     }
     
     void sortByAmount() {

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.31)
 
-project(lab08)
+project(hw)
 
 file(GLOB_RECURSE SRC "src/*.cpp")
 include_directories(include)
-add_executable(lab08 ${SRC})
-target_link_libraries(lab08)
+add_executable(hw ${SRC})
+target_link_libraries(hw)
