@@ -58,7 +58,7 @@ public:
     T* operator->() const {
         return ptr;
     }
-    
+
     size_t use_count() const {
         return count ? *count : 0;
     }
